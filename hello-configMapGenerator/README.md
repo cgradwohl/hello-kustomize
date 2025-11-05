@@ -5,7 +5,7 @@ In this example we generate config maps from various text files (.properties,
 configMapGenerator. We also show how to consume and reference the generated
 ConfigMap in a Deployment.
 
-To view or render the output (ConfigMap) run:
+To view or render the output (ConfigMap, Deployment) run:
 
 ```bash
 k kustomize ./
