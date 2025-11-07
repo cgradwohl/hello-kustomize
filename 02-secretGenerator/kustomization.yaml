@@ -1,0 +1,10 @@
+resources:
+  - deployment.yaml
+
+secretGenerator:
+  - name: secret-1
+    files:
+      - password.txt
+    literals:
+      - username2=name
+      - password2=supersecret

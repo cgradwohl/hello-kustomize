@@ -1,0 +1,28 @@
+resources:
+  - deployment.yaml
+
+configMapGenerator:
+  - name: example-configmap-3
+    literals:
+      - FOO=Bar
+
+generatorOptions:
+  disableNameSuffixHash: true
+  labels:
+    type: generated
+  annotations:
+    note: generated
+
+# below is an exmample of setting "cross-cutting" conventions
+# these are applied to all items in the resources list as well as the resources
+# that are generated from kustomize generators (i.e. configMapGenerator,
+# secretGenerator)
+namespace: my-namespace
+namePrefix: dev-
+nameSuffix: "-001"
+labels:
+  - pairs:
+      app: bingo
+    includeSelectors: true
+commonAnnotations:
+  oncallPager: 800-555-1212
