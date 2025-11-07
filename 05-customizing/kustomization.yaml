@@ -1,0 +1,52 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+
+# here we apply two patches to the items in the resources list
+patches:
+  # - path: increase_replicas.yaml
+  - path: set_memory.yaml
+  # The target resource is matched using group, version, kind, and name from the target field.
+  # To find the correct Resource for a Json6902 patch, it is mandatory to specify the target field in kustomization.yaml
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: my-nginx
+    path: json_patch.yaml
+
+# Kustomize also offers customizing container images or injecting field values
+# from other objects into containers without creating patches. For example, you
+# can change the image used inside containers by specifying the new image in
+# the images field in kustomization.yaml
+#
+# This will update the image being used
+images:
+  - name: nginx
+    newName: my.image.registry/nginx
+    newTag: "1.4.0"
+
+# Sometimes, the application running in a Pod may need to use configuration
+# values from other objects. For example, a Pod from a Deployment object need
+# to read the corresponding Service name from Env or as a command argument.
+# Since the Service name may change as namePrefix or nameSuffix is added in
+# the kustomization.yaml file. It is not recommended to hard code the Service
+# name in the command argument. For this usage, Kustomize can inject the Service
+# name into containers through replacements.
+#
+# the Service name will be injected into containers i.e. (dev-my-nginx-001)
+# now all the pods use the same service name!!
+replacements:
+  - source:
+      kind: Service
+      name: my-nginx
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: Deployment
+          name: my-nginx
+        fieldPaths:
+          - spec.template.spec.containers.0.command.2
+
+namePrefix: dev-
+nameSuffix: "-001"
