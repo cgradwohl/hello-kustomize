@@ -1,0 +1,7 @@
+# stg.yaml — staging environment overrides
+environment: staging
+# lower replicas in staging
+replicas: 1
+database:
+  # staging DB host overrides global
+  host: stg-db.example.local

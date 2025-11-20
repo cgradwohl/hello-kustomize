@@ -1,0 +1,6 @@
+# global.yaml — system-wide defaults
+logLevel: info
+replicas: 2
+database:
+  host: db.example.local
+  port: 5432

@@ -4,8 +4,6 @@ resources:
 configMapGenerator:
   - name: configmap-1
     files:
-      - application.properties
-    envs:
-      - .env
-    literals:
-      - FUZZ=buzz
+      - global.yaml
+      - stg.yaml
+      - sonar.yaml

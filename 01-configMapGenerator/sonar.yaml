@@ -1,0 +1,5 @@
+# sonar.yaml — service-specific values for the sonar app
+serviceName: sonar
+port: 9000
+features:
+  enableAnalysis: true
